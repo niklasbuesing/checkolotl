@@ -73,7 +73,7 @@ async fn main() -> Anyhow<()> {
         let config = &config;
         async move {
             let (user, password) = {
-                let mut temp = account.split(":");
+                let mut temp = account.split(':');
                 (temp.next(), temp.next())
             };
 
