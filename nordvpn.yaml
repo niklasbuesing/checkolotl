@@ -1,0 +1,41 @@
+---
+name: NordVPN
+author: Niklas Büsing
+version: 0.1.0
+pipeline:
+- REQUEST:
+    url: "https://zwyr157wwiu6eior.com/v1/users/tokens"
+    method: POST
+    headers:
+      Accept: >-
+        "/"
+      User-Agent: NordApp windows (main/6.18.9.0) windows/Microsoft Windows NT 10.0.17134.0
+      Content-Type: application/x-www-form-urlencoded
+    body:
+      FORM:
+        username: "{{user}}"
+        password: "{{password}}"
+- LUA: |-
+    token = response:json().token
+    account_valid = (response:status() == 201)
+    if not account_valid then
+      cancel()
+    end
+- REQUEST:
+    url: "https://zwyr157wwiu6eior.com/v1/users/service"
+    method: GET
+    headers:
+      Authorization:  >-
+        Basic {{base64encode("token:" .. token)}}
+      Accept: >-
+        "/"
+      User-Agent: NordApp windows (main/6.18.9.0) windows/Microsoft Windows NT 10.0.17134.0
+- LUA: |-
+    response_body = response:json()
+    print(response:text())
+    if response_body ~= nil and #response_body >= 1 then
+      expire_date = response_body[1].expires_at
+    end
+    print(expire_date)
+    subscription_active = (response:status() == 200)
+    valid = account_valid and subscription_active

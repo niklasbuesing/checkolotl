@@ -1,0 +1,32 @@
+[package]
+name = "checkolotl"
+version = "0.1.0"
+authors = ["Niklas Büsing <totallygenericemail@protonmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+serde_yaml = "0.8"
+serde_urlencoded = "0.5.1"
+
+futures = "0.3"
+
+rlua = "0.16.0"
+rlua_serde = "0.3.1"
+
+anyhow = "1.0"
+
+base64 = "0.11.0"
+
+structopt = "0.3"
+
+reqwest = { git = "https://github.com/seanmonstar/reqwest" }
+
+percent-encoding = "2.1.0"
+
+[dependencies.tokio]
+version = "0.2.6"
+features = ["full"]

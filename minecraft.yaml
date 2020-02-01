@@ -1,0 +1,22 @@
+---
+name: Minecraft
+author: Niklas Büsing
+version: 0.1.0
+pipeline:
+- REQUEST:
+    url: "https://authserver.mojang.com/authenticate"
+    method: POST
+    headers:
+      Content-Type: application/json
+    body:
+      JSON:
+        agent:
+          name: Minecraft
+          version: 1
+        clientToken: ""
+        password: "{{password}}"
+        requestUser: true
+        username: "{{user}}"
+- LUA: |-
+    response_body = response:json()
+    valid = response_body ~= nil and response_body.selectedProfile ~= nil
